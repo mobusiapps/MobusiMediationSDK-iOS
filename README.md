@@ -4,7 +4,7 @@
 
 MobusiMediationLayer SDK iOS version [iOS](ios.cs).
 
-The current **version (2.2.1)** is tested with  **Xcode8 or above** and is compatible with  **iOS 8 and above.**
+The current **version (2.3.3)** is tested with  **Xcode8 or above** and is compatible with  **iOS 8 and above.**
 
 ### Apply Framework To Your Project
 
