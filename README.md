@@ -8,7 +8,7 @@ The current **version (2.3.3)** is tested with  **Xcode8 or above** and is compa
 
 ### Apply Framework To Your Project
 
-Add the MobusiMediationLayer.framework to your project in General tab Linked Frameworks and Libraries. Now you must add the following frameworks and libs to your project in General tab Linked Frameworks and Libraries.
+Add the MobusiMediationLayer.framework to your project in General tab Linked Frameworks and Libraries. Now you must add the following frameworks and libs to your project in General tab Linked Frameworks and Libraries. Ensure that the frameworks are linked correcttly
 
       AdSupport.framework
       AudioToolbox.framework
@@ -49,7 +49,7 @@ MobusiMediation.initWithAppID("App ID", autoFetch: true, delegate: self, viewCon
 ```
 
 Below are the following methods of how to request different ad formats, the parameters are the
-“delegate” and the “zone” refers to where the advertising format can be kept track of.
+“delegate” and the “zone” refers to where the advertising format can be kept track of. Is not a good practice call any show method immediately after the init call. When a format ad is loaded you will be warned in the "advertLoaded" delegate method, that's a good time to call any show method if you want.
 
 ```objectivec
 MobusiMediationLayer.showBannerAd(with: self, zone: "home", viewController: self)
@@ -63,6 +63,18 @@ To optimize the integration, the following methods are provided:
 
 ```objectivec
  func  advertLoaded(_ provider: String!, view advert: MMLBannerView!, type: MMLType, zone zoneId: String!) {
+      switch type {
+            case .bannerFormat:
+                  Log("banner")
+            
+            case .interstitialFormat:
+                  Log("interstitial")
+            
+            case .rewardedVideoFormat:
+                  Log("rewarded")
+
+             }
+        }
     }
 
 
@@ -140,7 +152,7 @@ Launch the SDK with the following action setting **App ID** as parameter and **u
 ```
 
 Below are the following methods of how to request different ad formats, the parameters are the
-“delegate” and the “zone” refers to where the advertising format can be kept track of.
+“delegate” and the “zone” refers to where the advertising format can be kept track of. Is not a good practice call any show method immediately after the init call. When a format ad is loaded you will be warned in the "advertLoaded" delegate method, that's a good time to call any show method if you want.
 
 ```objectivec
 [MobusiMediationLayer showBannerAdWithDelegate:self zone:@"home" viewController:self];
