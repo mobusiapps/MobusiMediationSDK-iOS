@@ -72,7 +72,9 @@ To optimize the integration, the following methods are provided:
             
             case .rewardedVideoFormat:
                   Log("rewarded")
-
+                  
+            case .videoFormat:
+                  Log("video")
              }
         }
     }
