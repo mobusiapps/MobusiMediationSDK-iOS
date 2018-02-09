@@ -2,9 +2,9 @@
 
 ## MobusiMediation iOS SDK Swift 
 
-MobusiMediationLayer SDK iOS version [iOS](ios.cs).
+MobusiMediationLayer SDK iOS version iOS Swift.
 
-The current **version (2.3.3)** is tested with  **Xcode8 or above** and is compatible with  **iOS 8 and above.**
+The current **version (2.3.6)** is tested with  **Xcode8 or above** and is compatible with  **iOS 8 and above.**
 
 ### Apply Framework To Your Project
 
@@ -42,10 +42,10 @@ Now in build settings tab in "Swift Compiler - General" in the field "Objective-
 
 ### Implementation 
 
-Launch the SDK with the following action setting **App ID** as parameter and **uIViewController** as delegate. 
+Launch the SDK with the following action setting **YOUR_APP_HASH** as parameter and **uIViewController** as delegate. 
 
 ```objectivec
-MobusiMediation.initWithAppID("App ID", autoFetch: true, delegate: self, viewController: self)
+MobusiMediation.initWithAppID("YOUR_APP_HASH", autoFetch: true, delegate: self, viewController: self)
 ```
 
 Below are the following methods of how to request different ad formats, the parameters are the
@@ -88,10 +88,6 @@ To optimize the integration, the following methods are provided:
         
     }
 
- func advertDidDismissScreen(_ provider: String!, type: MMLType, zone: String!) {
-        
-    }
-
  func advertWebViewDidClose(_ provider: String!, type: MMLType, zone zoneId: String!) {
         
     }
@@ -105,11 +101,66 @@ To optimize the integration, the following methods are provided:
     }
 ```
 
+Below you have an integration example:
+
+```objectivec
+
+import UIKit
+
+class ViewController: UIViewController, MMLMobusiDelegate {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        MobusiMediationLayer.initWithAppID("YOUR_APP_HASH", autoFetch: true, delegate: self, viewController: self)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func advertLoaded(_ provider: String!, view advert: MMLBannerView!, type: MMLType, zone zoneId: String!) {
+        switch type {
+        case .bannerFormat:
+            print("banner")
+            
+        case .interstitialFormat:
+            print("interstitial")
+            
+        case .rewardedVideoFormat:
+            print("rewarded")
+            
+        case .videoFormat:
+            print("video")
+        }
+}
+
+    func advertsRequestFail(_ provider: String!, type: MMLType, zone zoneId: String!) {
+    }
+    
+    func advertDidInteract(_ provider: String!, type: MMLType, zone: String!) {
+        
+    }
+    func advertDidPresentScreen(_ provider: String!, type: MMLType, zone: String!) {
+        
+    }
+    func advertWebViewDidClose(_ provider: String!, type: MMLType, zone zoneId: String!) {
+        
+    }
+    func rewardUser(_ provider: String!, type: MMLType, zone zoneId: String!) {
+        
+    }
+}
+
+```
+
 ## MobusiMediation iOS SDK Objective-C
 
-MobusiMediationLayer SDK iOS version [iOS](ios.cs).
+MobusiMediationLayer SDK iOS version iOS Objective-C.
 
-The current **version (2.3.3)** is tested with  **Xcode8 or above** and is compatible with  **iOS 8 and above.**
+The current **version (2.3.6)** is tested with  **Xcode8 or above** and is compatible with  **iOS 8 and above.**
 
 ### Apply Framework To Your Project 
 
@@ -147,10 +198,10 @@ Import the mediation reference to the SDK.
  #import <MobusiMediationLayer/MobusiMediationLayer.h> 
 ```
 
-Launch the SDK with the following action setting **App ID** as parameter and **uIViewController** as delegate. 
+Launch the SDK with the following action setting **YOUR_APP_HASH** as parameter and **uIViewController** as delegate. 
 
 ```objectivec
-[MobusiMediationLayer initWithAppID:@"YOUR_APP_ID" autoFetch:YES delegate:self viewController:self];
+[MobusiMediationLayer initWithAppID:@"YOUR_APP_HASH" autoFetch:YES delegate:self viewController:self];
 ```
 
 Below are the following methods of how to request different ad formats, the parameters are the
@@ -167,6 +218,11 @@ The parameter zone is to tag your ads, for now is unavailable.
 To optimize the integration, the following methods are provided:
 
 ```objectivec
+
+- (void)mobusiMediationInitialized:(BOOL)state
+{
+}
+
 -(void)advertLoaded:(NSString *)provider view:(MMLBannerView *)advert type:(MMLType)type zone:(NSString *)zoneId
 
 {
@@ -188,7 +244,7 @@ break;
 
 - (void)advertDidInteract:(NSString *)provider type:(MMLType)type zone:(NSString *)zone;
 {
-NSLog(@&quot;INTERACT CONTROLLER mobusi");
+      NSLog("INTERACT CONTROLLER mobusi");
 }
 
  (void)advertDidPresentScreen:(NSString *)provider type:(MMLType)type zone:(NSString *)zone
@@ -196,12 +252,7 @@ NSLog(@&quot;INTERACT CONTROLLER mobusi");
     NSLog(@"DID PRESENT CONTROLLER mobusi ");
 }
 
--(void)advertDidDismissScreen:(NSString *)provider type:(MMLType)type zone:(NSString *)zone
-{
-    NSLog(@"DID DISMISS CONTROLLER mobusi ");
-}
-
--(void)advertWebViewDidClose:(NSString *)provider type:(MMLType)type zone:(NSString *)zoneId
+-(void)advertDidClose:(NSString *)provider type:(MMLType)type zone:(NSString *)zoneId
 {
     NSLog(@"CLOSE CONTROLLER mobusi ");
 }
@@ -214,5 +265,85 @@ NSLog(@&quot;INTERACT CONTROLLER mobusi");
 -(void)rewardUser:(NSString *)provider type:(MMLType)type zone:(NSString *)zoneId
 {
     NSLog(@"REWARD CONTROLLER mobusi ");
+}
+```
+
+Below you have an integration example:
+
+```objectivec
+
+#import "ViewController.h"
+#import <MobusiMediation/MobusiMediation.h>
+@interface ViewController () <MMLMobusiDelegate>
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [MobusiMediation initWithAppID:@"YOUR_APP_HASH" autoFetch:YES delegate:self viewController:self];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+- (void)advertLoaded:(NSString *)provider view:(MMLBannerView *)advert type:(MMLType)type zone:(NSString *)zoneId
+{
+    switch (type)
+    {
+    case MMLBannerFormat:
+        [self.buttonBanner setHidden:NO];
+        break;
+    case MMLInterstitialFormat:
+        [self.buttonInterstitial setHidden:NO];
+        break;
+    case MMLRewardedVideoFormat:
+        [self.buttonRewardedVideo setHidden:NO];
+        break;
+    default:
+        break;
+    }
+}
+- (void)mobusiMediationInitialized:(BOOL)state
+{
+}
+- (void)advertDidInteract:(NSString *)provider type:(MMLType)type zone:(NSString *)zone
+{
+}
+- (void)advertDidPresentScreen:(NSString *)provider type:(MMLType)type zone:(NSString *)zone
+{
+}
+- (void)advertDidClose:(NSString *)provider type:(MMLType)type zone:(NSString *)zoneId
+{
+}
+- (void)advertsRequestFail:(NSString *)provider type:(MMLType)type zone:(NSString *)zoneId
+{
+}
+- (void)rewardUser:(NSString *)provider type:(MMLType)type zone:(NSString *)zoneId
+{
+}
+- (void)showAd:(MMLType )type
+{
+    switch (type)
+    {
+    case 0:
+        [MobusiMediation showBannerAdWithDelegate:self zone:@"demo" viewController:self];
+        break;
+    case 1:
+        [MobusiMediation showInterstitialAdWithDelegate:self zone:@"demo" viewController:self];
+        break;
+    case 2:
+        [MobusiMediation showVideoAdWithDelegate:self zone:@"demo" viewController:self];
+        break;
+    case 3:
+        [MobusiMediation showRewardedVideoAdWithDelegate:self zone:@"demo" viewController:self];
+        break;
+    default:
+        break;
+    }
+}
 }
 ```
