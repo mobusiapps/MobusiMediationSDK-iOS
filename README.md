@@ -65,16 +65,16 @@ To optimize the integration, the following methods are provided:
  func  advertLoaded(_ provider: String!, view advert: MMLBannerView!, type: MMLType, zone zoneId: String!) {
       switch type {
             case .bannerFormat:
-                  Log("banner")
+                  print("banner")
             
             case .interstitialFormat:
-                  Log("interstitial")
+                  print("interstitial")
             
             case .rewardedVideoFormat:
-                  Log("rewarded")
+                  print("rewarded")
                   
             case .videoFormat:
-                  Log("video")
+                  print("video")
              }
         }
     }
